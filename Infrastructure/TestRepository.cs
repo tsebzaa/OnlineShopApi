@@ -43,7 +43,8 @@ namespace Infrastructure
 
         public Product CreateProduct(Product product)
         {
-            product.OrderDetails = new List<OrderDetail> { new OrderDetail() {OrderId = null } };
+
+            product.OrderDetails = new List<OrderDetail> { _ShopDbContext.OrderDetails.Find(20) };
             _ShopDbContext.Products.Add(product);
             _ShopDbContext.SaveChanges();
             return product;
