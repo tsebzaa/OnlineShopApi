@@ -66,6 +66,9 @@ namespace Infrastructure
                 return null; 
             }
 
+            var ordersDel = _ShopDbContext.OrderDetails.Where(el => el.ProductId == id).ToList();
+            ordersDel.ForEach(el=> _ShopDbContext.OrderDetails.Remove(el));
+
             _ShopDbContext.Products.Remove(product);
             _ShopDbContext.SaveChanges();
             return product;
