@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Application
 {
-    public class TestService : InterfaceTestService
+    public class ProductService : InterfaceProductService
     {
-        private readonly InterfaceTestRepository _testRepository;
+        private readonly InterfaceProductRepository _testRepository;
 
-        public TestService(InterfaceTestRepository testRepository)
+        public ProductService(InterfaceProductRepository testRepository)
         {
             _testRepository = testRepository;
         }
@@ -34,9 +34,9 @@ namespace Application
             return createdProduct;
         }
 
-        public Product EditProduct(Product product, long id) 
+        public Product EditProduct(int id, Product product) 
         {
-            _testRepository.EditProduct(product, id);
+            _testRepository.EditProduct( id,product);
             return product;
         }
 

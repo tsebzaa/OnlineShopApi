@@ -13,12 +13,12 @@ using System.Diagnostics;
 
 namespace Infrastructure
 {
-    public class TestRepository : InterfaceTestRepository
+    public class ProductRepository : InterfaceProductRepository
     {
   
         private readonly DevSafeRossContext _ShopDbContext;
 
-        public TestRepository(DevSafeRossContext testDbContext)
+        public ProductRepository(DevSafeRossContext testDbContext)
         {
             _ShopDbContext = testDbContext;
         }
@@ -43,7 +43,6 @@ namespace Infrastructure
 
         public Product CreateProduct(Product product)
         {
-
             product.OrderDetails = new List<OrderDetail> { new OrderDetail() {} };
             _ShopDbContext.Products.Add(product);
             _ShopDbContext.SaveChanges();
@@ -51,17 +50,29 @@ namespace Infrastructure
         }
 
 
-        public Product EditProduct(Product product, long id) 
+        public Product EditProduct(int id,Product product) 
         {
-            _ShopDbContext.Entry(product).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            var oldProduct = _ShopDbContext.Products.Find(id);
+            if(oldProduct == null) 
+            {
+                return null;
+            }
+            oldProduct.Name = product.Name;
+            oldProduct.Price = product.Price;
+            oldProduct.Description = product.Description;
+            oldProduct.InventoryId = product.InventoryId;
+            oldProduct.ProductCategoryId = product.ProductCategoryId;
+
             _ShopDbContext.SaveChanges();
+
             return product;
+
         }
 
         public Product DeleteProduct(int id)
         {
-            var product = _ShopDbContext.Products.Find(id);
-            if(product == null) 
+            var deletedProduct = _ShopDbContext.Products.Find(id);
+            if(deletedProduct == null) 
             {
                 return null; 
             }
@@ -69,9 +80,9 @@ namespace Infrastructure
             var ordersDel = _ShopDbContext.OrderDetails.Where(el => el.ProductId == id).ToList();
             ordersDel.ForEach(el=> _ShopDbContext.OrderDetails.Remove(el));
 
-            _ShopDbContext.Products.Remove(product);
+            _ShopDbContext.Products.Remove(deletedProduct);
             _ShopDbContext.SaveChanges();
-            return product;
+            return deletedProduct;
 
         }
 

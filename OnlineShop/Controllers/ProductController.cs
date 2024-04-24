@@ -8,14 +8,15 @@ namespace OnlineShop.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TestController : ControllerBase
+    public class ProductController : ControllerBase
     {
-        private readonly InterfaceTestService _service;
+        private readonly InterfaceProductService _service;
 
-        public TestController(InterfaceTestService service)
+        public ProductController(InterfaceProductService service)
         {
             _service = service;
         }
+
         [HttpGet]
         public ActionResult<List<Product>>  Get()
         {
@@ -33,22 +34,23 @@ namespace OnlineShop.Controllers
         [HttpPost]
         public ActionResult<Product> PostTest(Product product) 
         {
-            var Product = _service.CreateProduct(product);
-            return Ok(Product);
+            var createdProduct = _service.CreateProduct(product);
+            return Ok(createdProduct);
         }
 
-        [HttpPut]
-        public ActionResult EditProduct(long id,Product product) 
-        {
-            var Eproduct = _service.EditProduct(product,id);
-            return Ok(Eproduct);
+        [HttpPut("{id}")]
+        public ActionResult EditProduct(int id,Product product)
+        { 
+
+            var editedProduct = _service.EditProduct(id,product);
+            return Ok(editedProduct);
         }
 
         [HttpDelete("{id}")]
         public ActionResult DeleteProduct(int id)
         {
-            var DeletedProduct = _service.DeleteProduct(id);
-            return Ok(DeletedProduct);
+            var deletedProduct = _service.DeleteProduct(id);
+            return Ok(deletedProduct);
         }
 
        

@@ -12,8 +12,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DevSafeRossContext>();
 
-builder.Services.AddScoped<InterfaceTestService, TestService>();
-builder.Services.AddScoped<InterfaceTestRepository, TestRepository>();
+builder.Services.AddScoped<InterfaceProductService, ProductService>();
+builder.Services.AddScoped<InterfaceProductRepository, ProductRepository>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
