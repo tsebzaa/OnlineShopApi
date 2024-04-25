@@ -6,7 +6,7 @@ namespace Domain.Models;
 
 public partial class OrderDetail
 {
-    public int OrderDetailId { get; set; }
+    public int OrderDetailId { get;internal set; }
 
     public int? ProductId { get; set; }
 

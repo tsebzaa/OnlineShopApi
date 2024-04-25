@@ -1,4 +1,6 @@
-using Application;
+using Application.InterfaceRepositories;
+using Application.InterfaceServices;
+using Application.Services;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,8 +21,12 @@ builder.Services.AddDbContext<DevSafeRossContext>(options =>
 }
 );
 
-builder.Services.AddScoped<InterfaceProductService, ProductService>();
+
+builder.Services.AddScoped<InterfaceProductService,ProductService>();
 builder.Services.AddScoped<InterfaceProductRepository, ProductRepository>();
+builder.Services.AddScoped<InterfaceInventoryService,InventoryService>();
+builder.Services.AddScoped<InterfaceInventoryRepository, InventoryRepository>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

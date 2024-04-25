@@ -1,8 +1,7 @@
-﻿using Application;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Domain.Models;
+using Application.InterfaceServices;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace OnlineShop.Controllers
 {
@@ -18,38 +17,54 @@ namespace OnlineShop.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Product>>  Get()
+        public async Task<ActionResult<List<Product>>>  Get()
         {
-            var products = _service.GetAll();
-            return Ok(products);
+            return Ok(await _service.GetAll());
+       
         }
 
         [HttpGet("{id}/GetById")]
-        public ActionResult<Product> GetProductById(int id)
+        public async Task<ActionResult<Product>> GetProductById(int id)
         {
-            var product = _service.GetProductById(id);
+            var product =await _service.GetProductById(id);
+            if (product == null)
+            {
+                return BadRequest("Nie ma produktu o podanym id");
+            }
             return Ok(product);
         }
 
         [HttpPost]
-        public ActionResult<Product> PostTest(Product product) 
+        public async Task<ActionResult<Product>> CreateProduct(Product product) 
         {
-            var createdProduct = _service.CreateProduct(product);
+            var createdProduct = await _service.CreateProduct(product);
+            if (product == null)
+            {
+                return BadRequest("Złe dane");
+            }
+
             return Ok(createdProduct);
         }
 
         [HttpPut("{id}")]
-        public ActionResult EditProduct(int id,Product product)
+        public async Task<ActionResult> EditProduct(int id,Product product)
         { 
-
-            var editedProduct = _service.EditProduct(id,product);
+            var editedProduct =await _service.EditProduct(id,product);
+            if (editedProduct == null)
+            {
+                return BadRequest("Złe dane");
+            }
             return Ok(editedProduct);
         }
 
         [HttpDelete("{id}")]
-        public ActionResult DeleteProduct(int id)
+        public async Task<ActionResult> DeleteProduct(int id)
         {
-            var deletedProduct = _service.DeleteProduct(id);
+            var deletedProduct =await _service.DeleteProduct(id);
+            if (deletedProduct == null)
+            {
+                return BadRequest("Nie ma produktu o podanym id");
+            }
             return Ok(deletedProduct);
         }
 
