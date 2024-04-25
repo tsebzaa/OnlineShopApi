@@ -10,7 +10,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<DevSafeRossContext>();
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<DevSafeRossContext>(options =>
+{
+    options.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString));
+}
+);
 
 builder.Services.AddScoped<InterfaceProductService, ProductService>();
 builder.Services.AddScoped<InterfaceProductRepository, ProductRepository>();
