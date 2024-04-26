@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Domain.Models;
-using Application.InterfaceServices;
+using Application;
 
 
 namespace OnlineShop.Controllers
@@ -9,9 +9,9 @@ namespace OnlineShop.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly InterfaceProductService _service;
+        private readonly InterfaceService<Product> _service;
 
-        public ProductController(InterfaceProductService service)
+        public ProductController(InterfaceService<Product> service)
         {
             _service = service;
         }
@@ -26,7 +26,7 @@ namespace OnlineShop.Controllers
         [HttpGet("{id}/GetById")]
         public async Task<ActionResult<Product>> GetProductById(int id)
         {
-            var product =await _service.GetProductById(id);
+            var product =await _service.GetItemById(id);
             if (product == null)
             {
                 return BadRequest("Nie ma produktu o podanym id");
@@ -37,7 +37,7 @@ namespace OnlineShop.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> CreateProduct(Product product) 
         {
-            var createdProduct = await _service.CreateProduct(product);
+            var createdProduct = await _service.CreateItem(product);
             if (product == null)
             {
                 return BadRequest("Złe dane");
@@ -49,7 +49,7 @@ namespace OnlineShop.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> EditProduct(int id,Product product)
         { 
-            var editedProduct =await _service.EditProduct(id,product);
+            var editedProduct =await _service.EditItem(id,product);
             if (editedProduct == null)
             {
                 return BadRequest("Złe dane");
@@ -60,7 +60,7 @@ namespace OnlineShop.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteProduct(int id)
         {
-            var deletedProduct =await _service.DeleteProduct(id);
+            var deletedProduct =await _service.DeleteItem(id);
             if (deletedProduct == null)
             {
                 return BadRequest("Nie ma produktu o podanym id");

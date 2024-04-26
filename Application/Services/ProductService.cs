@@ -1,6 +1,4 @@
-﻿using Application.InterfaceRepositories;
-using Application.InterfaceServices;
-using Domain.Models;
+﻿using Domain.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System;
 using System.Collections.Generic;
@@ -10,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Application.Services
 {
-    public class ProductService : InterfaceProductService
+    public class ProductService : InterfaceService<Product>
     {
-        private readonly InterfaceProductRepository _productRepository;
+        private readonly InterfaceRepository<Product> _productRepository;
 
-        public ProductService(InterfaceProductRepository productRepository)
+        public ProductService(InterfaceRepository<Product> productRepository)
         {
             _productRepository = productRepository;
         }
@@ -24,27 +22,27 @@ namespace Application.Services
 
         }
 
-        public async Task<Product?> GetProductById(int id)
+        public async Task<Product?> GetItemById(int id)
         {
-            return await _productRepository.GetProductById(id);
+            return await _productRepository.GetItemById(id);
 
         }
 
-        public async Task<Product?> CreateProduct(Product product)
+        public async Task<Product?> CreateItem(Product product)
         {
-            return await _productRepository.CreateProduct(product);
+            return await _productRepository.CreateItem(product);
 
         }
 
-        public async Task<Product?> EditProduct(int id, Product product)
+        public async Task<Product?> EditItem(int id, Product product)
         {
-            return await _productRepository.EditProduct(id, product);
+            return await _productRepository.EditItem(id, product);
 
         }
 
-        public async Task<Product?> DeleteProduct(int id)
+        public async Task<Product?> DeleteItem(int id)
         {
-            return await _productRepository.DeleteProduct(id);
+            return await _productRepository.DeleteItem(id);
 
         }
 

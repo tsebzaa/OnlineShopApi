@@ -1,6 +1,4 @@
-﻿using Application.InterfaceRepositories;
-using Application.InterfaceServices;
-using Domain.Models;
+﻿using Domain.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System;
 using System.Collections.Generic;
@@ -10,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Application.Services
 {
-    public class InventoryService : InterfaceInventoryService
+    public class InventoryService : InterfaceService<Inventory>
     {
-        private readonly InterfaceInventoryRepository _InventoryRepository;
+        private readonly InterfaceRepository<Inventory> _InventoryRepository;
 
-        public InventoryService(InterfaceInventoryRepository InventoryRepository)
+        public InventoryService(InterfaceRepository<Inventory> InventoryRepository)
         {
             _InventoryRepository = InventoryRepository;
         }
@@ -24,27 +22,27 @@ namespace Application.Services
 
         }
 
-        public async Task<Inventory?> GetInventoryById(int id)
+        public async Task<Inventory?> GetItemById(int id)
         {
-            return await _InventoryRepository.GetInventoryById(id);
+            return await _InventoryRepository.GetItemById(id);
 
         }
 
-        public async Task<Inventory?> CreateInventory(Inventory inventory)
+        public async Task<Inventory?> CreateItem(Inventory inventory)
         {
-            return await _InventoryRepository.CreateInventory(inventory);
+            return await _InventoryRepository.CreateItem(inventory);
 
         }
 
-        public async Task<Inventory?> EditInventory(int id, Inventory inventory)
+        public async Task<Inventory?> EditItem(int id, Inventory inventory)
         {
-            return await _InventoryRepository.EditInventory(id, inventory);
+            return await _InventoryRepository.EditItem(id, inventory);
 
         }
 
-        public async Task<Inventory?> DeleteInventory(int id)
+        public async Task<Inventory?> DeleteItem(int id)
         {
-            return await _InventoryRepository.DeleteInventory(id);
+            return await _InventoryRepository.DeleteItem(id);
 
         }
 

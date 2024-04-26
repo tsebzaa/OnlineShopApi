@@ -12,13 +12,13 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
-using Application.InterfaceRepositories;
+using Application;
 
-namespace Infrastructure
+namespace Infrastructure.Repositories
 {
-    public class InventoryRepository : InterfaceInventoryRepository
+    public class InventoryRepository : InterfaceRepository<Inventory>
     {
-  
+
         private readonly DevSafeRossContext _ShopDbContext;
 
         public InventoryRepository(DevSafeRossContext testDbContext)
@@ -28,34 +28,34 @@ namespace Infrastructure
 
         public async Task<List<Inventory>> GetAll()
         {
-            return  await _ShopDbContext.Inventories.ToListAsync();
+            return await _ShopDbContext.Inventories.ToListAsync();
         }
 
 
-        public async Task<Inventory?> GetInventoryById(int id)
+        public async Task<Inventory?> GetItemById(int id)
         {
-            var Inventory =await  _ShopDbContext.Inventories.FindAsync(id);
-            if(Inventory == null) 
+            var Inventory = await _ShopDbContext.Inventories.FindAsync(id);
+            if (Inventory == null)
             {
-                return  null;
+                return null;
             }
 
-            return  Inventory;
+            return Inventory;
 
         }
 
-        public async Task<Inventory?> CreateInventory(Inventory inventory)
+        public async Task<Inventory?> CreateItem(Inventory inventory)
         {
             await _ShopDbContext.AddAsync(inventory);
             await _ShopDbContext.SaveChangesAsync();
-            return  inventory;
+            return inventory;
         }
 
 
-        public async Task<Inventory?> EditInventory(int id,Inventory inventory) 
+        public async Task<Inventory?> EditItem(int id, Inventory inventory)
         {
             var oldInventory = await _ShopDbContext.Inventories.FindAsync(id);
-            if(oldInventory == null) 
+            if (oldInventory == null)
             {
                 return null;
             }
@@ -67,16 +67,16 @@ namespace Infrastructure
 
         }
 
-        public async Task<Inventory?> DeleteInventory(int id)
+        public async Task<Inventory?> DeleteItem(int id)
         {
             var deletedInventory = await _ShopDbContext.Inventories.FindAsync(id);
-            if(deletedInventory == null) 
+            if (deletedInventory == null)
             {
-                return null; 
+                return null;
             }
 
             var productsDel = await _ShopDbContext.Products.Where(el => el.InventoryId == id).ToListAsync();
-            productsDel.ForEach(el=> _ShopDbContext.Products.Remove(el));
+            productsDel.ForEach(el => _ShopDbContext.Products.Remove(el));
 
             _ShopDbContext.Inventories.Remove(deletedInventory);
             await _ShopDbContext.SaveChangesAsync();
