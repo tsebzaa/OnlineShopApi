@@ -6,6 +6,7 @@ namespace Domain.Models;
 
 public partial class Order
 {
+ 
     public int OrderId { get;internal set; }
 
     public int? PaymentId { get; set; }

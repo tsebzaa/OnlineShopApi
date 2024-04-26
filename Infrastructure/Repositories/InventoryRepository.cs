@@ -59,8 +59,12 @@ namespace Infrastructure.Repositories
             {
                 return null;
             }
-
+            if(inventory.Amount < 0)
+            {
+                return null;
+            }
             oldInventory.Amount = inventory.Amount;
+
             await _ShopDbContext.SaveChangesAsync();
 
             return inventory;

@@ -56,6 +56,12 @@ namespace Infrastructure.Repositories
                 return null;
             }
 
+
+            if (product.Inventory.Amount < 0)
+            {
+                return null;
+            }
+
             var inventory = new Inventory();
             inventory.Amount = product.Inventory.Amount;
 
@@ -86,15 +92,19 @@ namespace Infrastructure.Repositories
 
             var oldInventory = await _ShopDbContext.Inventories.FindAsync(oldProduct.InventoryId);
 
-            
-           
+            if (product.Inventory.Amount < 0)
+            {
+                return null;
+            }
+
+
             oldProduct.Name = product.Name;
             oldProduct.Price = product.Price;
             oldProduct.Description = product.Description;
             oldProduct.ProductCategoryId = product.ProductCategoryId;
             oldProduct.Inventory = oldInventory;
             oldProduct.Inventory.Amount = product.Inventory.Amount;
-            
+
             await _ShopDbContext.SaveChangesAsync();
 
             return product;

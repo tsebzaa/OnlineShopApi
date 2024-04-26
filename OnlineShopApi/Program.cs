@@ -33,7 +33,10 @@ builder.Services.AddScoped<InterfaceService<User>, UserService>();
 builder.Services.AddScoped<InterfaceRepository<User>, UserRepository>();
 builder.Services.AddScoped<InterfaceService<PaymentType>, PaymentTypeService>();
 builder.Services.AddScoped<InterfaceRepository<PaymentType>, PaymentTypeRepository>();
-
+builder.Services.AddScoped<InterfaceService<Order>, OrderService>();
+builder.Services.AddScoped<InterfaceRepository<Order>, OrderRepository>();
+builder.Services.AddScoped<InterfaceService<OrderDetail>, OrderDetailService>();
+builder.Services.AddScoped<InterfaceRepository<OrderDetail>, OrderDetailRepository>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
